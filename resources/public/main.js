@@ -1,6 +1,8 @@
 angular.module('fileUpload', [ 'angularFileUpload' ])
 
-.controller('MyCtrl',[ '$scope', '$http', '$timeout', '$upload',  function($scope, $http, $timeout, $upload) {
+.controller('MyCtrl',[ '$scope', '$http', '$timeout', '$upload', '$location', function($scope, $http, $timeout, $upload, $location) {
+    var profile = Number($location.search().account);
+    console.log(profile)
     $scope.fileReaderSupported = window.FileReader != null;
     $scope.uploadRightAway = false;
     $scope.changeAngularVersion = function() {
@@ -92,3 +94,4 @@ angular.module('fileUpload', [ 'angularFileUpload' ])
             });
     }
 } ])
+
