@@ -1,0 +1,65 @@
+<!-- shim is needed to support upload progress/abort for HTML5 and non-HTML5 FormData browsers.-->
+<!-- use html5-shim.js instead if you just support HTML5 browsers and you need progress event-->
+<!-- Note: shim.js MUST BE PLACED BEFORE angular.js and angular-file-upload.js AFTER angular.js-->
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="common.css">
+    <title>Angular file upload sample</title>
+    <script src="angular-file-upload-shim.min.js"></script>
+    <script src="angular.min.js"></script>
+    <script src="angular-file-upload.min.js"></script>
+    <script src="jszip.min.js"></script>
+    <script src="main.js"></script>
+    <!-- <script src="http://cdn.jsdelivr.net/angular.file-upload/1.0.0/angular-file-upload.min.js"></script> -->
+</head>
+
+<body ng-app="fileUpload" ng-controller="MyCtrl">
+<h1>DropLease</h1>
+
+<div class="upload-div">
+    <br/>
+    myModel: <input type="text" ng-model="myModel"> model object to be sent with the file.<br/>
+    choose a single file: <input type="file" ng-file-select="onFileSelect($files)">
+    <br/>
+    or multiple files: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="file" ng-file-select="onFileSelect($files)" multiple>
+    <br/>
+    <br/>
+
+    <div ng-show="dropSupported" class="drop-box" ng-file-drop="onFileSelect($files);"
+         ng-file-drop-available="dropSupported=true">or drop files here
+    </div>
+    <div ng-show="!dropSupported">HTML5 Drop File is not supported on this browser</div>
+    <button class="button" ng-disabled="uploadCount != 0" ng-click="start()" >Start</button>
+    {{uploadCount}}
+    <br/>
+    Progress:
+    <br/>
+
+    <div ng-show="selectedFiles != null">
+        <div class="sel-file" ng-repeat="f in selectedFiles">
+            {{f.name}} - size: {{f.size/1000}}kB
+        </div>
+    </div>
+	<span class="progress" ng-show="progress >= 0">
+        <div style="width:{{progress}}%">{{progress}}%</div>
+    </span>
+
+    <div class="response" ng-show="uploadResult.length > 0">
+        Server Response:
+        <ul>
+            <li ng-repeat="result in uploadResult">
+                <ul>
+                    <li ng-repeat="item in result.result">
+                        <div data-ng-show="item.name">File: {{item.name}}</div>
+                        <div data-ng-show="item.size">Size: {{item.size}}</div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div style="position:absolute;bottom:10px;right:10px;font-size:smaller;color:#777">Last update: 2014-03-27</div>
+</body>
+</html>
